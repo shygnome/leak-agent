@@ -1,0 +1,20 @@
+# Dependencies
+**/node_modules
+
+# Build outputs
+web/.next
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Local dev
+**/.env
+**/.env.local
+CLAUDE.md
+
+# Test files (not needed in production image)
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
