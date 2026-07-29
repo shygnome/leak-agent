@@ -16,7 +16,11 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/web/node_modules ./web/node_modules
 COPY . .
-RUN pnpm --filter web build
+# Build from web/ so Next.js treats it as the project root.
+# This keeps the standalone output flat: server.js at standalone/ root
+# instead of standalone/web/server.js (which happens when building from /app).
+WORKDIR /app/web
+RUN pnpm build
 
 FROM base AS runner
 WORKDIR /app
@@ -34,4 +38,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["node", "web/server.js"]
